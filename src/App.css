@@ -1,0 +1,82 @@
+/* 重置根元素样式 */
+#root {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #653b8a 100%);
+}
+
+/* 聊天框专用滚动条样式 */
+.chat-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background: rgba(102, 126, 234, 0.3);
+  border-radius: 3px;
+}
+
+.chat-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(102, 126, 234, 0.5);
+}
+
+/* 按钮悬停效果 */
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  header {
+    padding: 16px 24px !important;
+  }
+  
+  header > div {
+    flex-direction: column;
+    gap: 12px !important;
+    align-items: flex-start !important;
+  }
+}
+
+@media (max-width: 968px) {
+  /* 在小屏幕上改为单栏布局 */
+  div[style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 500px 1fr;
+  }
+}
