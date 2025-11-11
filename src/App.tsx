@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import './App.css'
 import { CopilotChat } from "@copilotkit/react-ui";
-import { useCopilotChatSuggestions } from "@copilotkit/react-ui"; 
 import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core'
 
 // 地图组件 - 现代化设计
@@ -96,14 +95,7 @@ function MapView({ location, address, timestamp }: {
 }
 
 function App() {
-  const [count, setCount] = useState(0)
   const [mapLocation, setMapLocation] = useState<{ lat: number; lng: number; address: string; timestamp: number } | null>(null)
-
-  // 让 Copilot 知道当前的 count 值
-  useCopilotReadable({
-    description: "当前的计数器值",
-    value: count,
-  })
 
   // 让 Copilot 知道当前显示的地图位置
   useCopilotReadable({
@@ -111,24 +103,7 @@ function App() {
     value: mapLocation ? `${mapLocation.address} (${mapLocation.lat}, ${mapLocation.lng})` : "未显示地图",
   })
 
-  // 添加一个可以被 Copilot 调用的动作
-  useCopilotAction({
-    name: "setCounter",
-    description: "设置计数器的值",
-    parameters: [
-      {
-        name: "value",
-        type: "number",
-        description: "要设置的新值",
-        required: true,
-      },
-    ],
-    handler: async ({ value }) => {
-      setCount(value)
-    },
-  })
-
-  // 添加显示地图的动作（修复：添加 timestamp 强制刷新）
+  // 添加显示地图的动作
   useCopilotAction({
     name: "showMap",
     description: "显示指定地点的地图。可以通过地址名称或经纬度坐标来显示地图。当用户想查看某个地点、想知道某个地方在哪里、或者询问地理位置时，就使用这个动作。",
@@ -246,44 +221,14 @@ function App() {
             }}>
               🤖 AI 地图助手
             </div>
-          </div>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '16px',
-            fontSize: '14px',
-            color: '#666'
-          }}>
             <div style={{
-              padding: '8px 16px',
-              background: '#f8f9fa',
-              borderRadius: '20px',
-              fontWeight: '500'
+              fontSize: '14px',
+              color: '#666',
+              marginTop: '8px',
+              fontWeight: '400'
             }}>
-              计数器: <span style={{ 
-                color: '#667eea', 
-                fontWeight: '700',
-                fontSize: '16px'
-              }}>{count}</span>
+              智能地图查询助手
             </div>
-            <button 
-              onClick={() => setCount(count + 1)}
-              style={{
-                padding: '8px 20px',
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '20px',
-                cursor: 'pointer',
-                fontWeight: '600',
-                fontSize: '14px',
-                transition: 'transform 0.2s',
-              }}
-              onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-              onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              ➕ 增加
-            </button>
           </div>
         </div>
       </header>
@@ -343,10 +288,10 @@ function App() {
             }}
           >
             <CopilotChat
-              instructions="你是一个友好的 AI 地图助手。当用户想查看某个地点、询问某个地方在哪里、或者想了解地理位置时，你应该使用 showMap 动作来显示地图。你也可以帮助用户操作计数器。请用友好、简洁的语言回复。支持的地点包括：北京天安门、上海东方明珠、广州塔、深圳、杭州西湖、纽约时代广场、巴黎埃菲尔铁塔、东京塔、伦敦等。"
+              instructions="你是一个专业的 AI 地图助手。当用户想查看某个地点、询问某个地方在哪里、或者想了解地理位置时，你应该使用 showMap 动作来显示地图。请用友好、简洁的语言回复。支持的知名地点包括：北京天安门、上海东方明珠、广州塔、深圳、杭州西湖、纽约时代广场、巴黎埃菲尔铁塔、东京塔、伦敦等，也可以通过经纬度坐标查询任意位置。"
               labels={{
                 title: "AI 地图助手",
-                initial: "你好！👋 我可以帮你查看世界各地的地图。\n\n试试问我：\n• \"显示北京天安门\"\n• \"上海东方明珠在哪里？\"\n• \"带我看看巴黎埃菲尔铁塔\"\n• \"显示坐标 40.7580, -73.9855\"",
+                initial: "你好！👋 我是你的智能地图助手，可以帮你查看世界各地的地图位置。\n\n试试问我：\n• \"显示北京天安门\"\n• \"上海东方明珠在哪里？\"\n• \"带我看看巴黎埃菲尔铁塔\"\n• \"显示纽约时代广场的位置\"\n• \"查看坐标 40.7580, -73.9855\"",
                 placeholder: "问我任何地点...",
               }}
             />
