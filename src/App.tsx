@@ -3,7 +3,7 @@ import './App.css'
 import { CopilotChat } from "@copilotkit/react-ui";
 import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core'
 
-// 地图组件 - 现代化设计
+// 地图组件
 function MapView({ location, address, timestamp }: { 
   location?: { lat: number; lng: number }, 
   address?: string,
@@ -36,7 +36,7 @@ function MapView({ location, address, timestamp }: {
     );
   }
   
-  // 使用 OpenStreetMap，添加时间戳强制刷新
+  // 使用 OpenStreetMap
   const osmUrl = location
     ? `https://www.openstreetmap.org/export/embed.html?bbox=${location.lng - 0.01},${location.lat - 0.01},${location.lng + 0.01},${location.lat + 0.01}&layer=mapnik&marker=${location.lat},${location.lng}`
     : `https://www.openstreetmap.org/export/embed.html?bbox=116.3,39.9,116.5,40.0&layer=mapnik`;
@@ -72,7 +72,7 @@ function MapView({ location, address, timestamp }: {
       </div>
       <div style={{ flex: 1, position: 'relative', minHeight: '500px' }}>
         <iframe
-          key={`map-${timestamp}`}  // 使用 key 强制重新渲染
+          key={`map-${timestamp}`}
           width="100%"
           height="100%"
           style={{ border: 0, display: 'block' }}
@@ -128,7 +128,7 @@ function App() {
       },
     ],
     handler: async ({ address, latitude, longitude }) => {
-      const timestamp = Date.now(); // 添加时间戳确保每次都更新
+      const timestamp = Date.now();
       
       if (latitude !== undefined && longitude !== undefined) {
         setMapLocation({ 
@@ -139,7 +139,7 @@ function App() {
         })
         return `✅ 已为你显示 ${address || `坐标 ${latitude}, ${longitude}`} 的地图`;
       } else if (address) {
-        // 模拟一些常见地点的坐标（实际应用中可以调用地理编码 API）
+        // 常见地点的坐标
         const knownPlaces: Record<string, { lat: number; lng: number }> = {
           "北京天安门": { lat: 39.9042, lng: 116.4074 },
           "天安门": { lat: 39.9042, lng: 116.4074 },
@@ -162,7 +162,6 @@ function App() {
           setMapLocation({ ...coords, address, timestamp })
           return `✅ 已为你显示 ${address} 的地图`;
         } else {
-          // 默认显示一个位置（北京）
           setMapLocation({ lat: 39.9042, lng: 116.4074, address, timestamp })
           return `✅ 已为你显示 ${address} 的大致位置（如需精确位置，请提供具体坐标）`;
         }
@@ -194,85 +193,77 @@ function App() {
       height: '100vh',
       display: 'flex',
       flexDirection: 'column',
-      background: 'linear-gradient(to bottom, #f8f9fa, #e9ecef)',
+      background: '#f6f8fa',
       overflow: 'hidden'
     }}>
       {/* 顶部标题栏 */}
       <header style={{
-        padding: '20px 32px',
+        padding: '16px 24px',
         background: 'white',
         borderBottom: '1px solid #e9ecef',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+        flexShrink: 0
       }}>
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          maxWidth: '1800px',
-          margin: '0 auto'
+          gap: '12px'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <div style={{
-              fontSize: '32px',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontWeight: '700'
-            }}>
-              🤖 AI 地图助手
-            </div>
-            <div style={{
-              fontSize: '14px',
-              color: '#666',
-              marginTop: '8px',
-              fontWeight: '400'
-            }}>
-              智能地图查询助手
-            </div>
+          <div style={{
+            fontSize: '20px',
+            fontWeight: '600',
+            color: '#1f2328'
+          }}>
+            🤖 AI 地图助手
+          </div>
+          <div style={{
+            fontSize: '13px',
+            color: '#8b949e',
+            padding: '4px 10px',
+            background: '#f6f8fa',
+            borderRadius: '12px',
+            border: '1px solid #d0d7de'
+          }}>
+            智能地图查询助手
           </div>
         </div>
       </header>
 
-      {/* 主内容区 - 两栏布局 */}
+      {/* 内容区：AI 聊天 + 地图 */}
       <div style={{
         flex: 1,
         display: 'grid',
         gridTemplateColumns: '600px 1fr',
-        gap: '24px',
-        padding: '24px 32px',
-        maxWidth: '1800px',
-        width: '100%',
-        margin: '0 auto',
+        gap: '16px',
+        padding: '16px',
         overflow: 'hidden'
       }}>
         {/* 左侧：AI 聊天 */}
         <div style={{
           background: 'white',
-          borderRadius: '16px',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          borderRadius: '8px',
+          border: '1px solid #d0d7de',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
           height: '100%'
         }}>
           <div style={{
-            padding: '20px 24px',
+            padding: '16px',
             borderBottom: '1px solid #e9ecef',
-            background: 'linear-gradient(135deg, #667eea05 0%, #764ba205 100%)',
             flexShrink: 0
           }}>
             <h2 style={{ 
               margin: 0, 
-              fontSize: '20px',
+              fontSize: '16px',
               fontWeight: '600',
-              color: '#333'
+              color: '#1f2328'
             }}>
               💬 AI 助手
             </h2>
             <p style={{
-              margin: '8px 0 0 0',
-              fontSize: '13px',
-              color: '#666'
+              margin: '6px 0 0 0',
+              fontSize: '12px',
+              color: '#8b949e'
             }}>
               我可以帮你查看世界各地的地图位置
             </p>
@@ -301,8 +292,8 @@ function App() {
         {/* 右侧：地图显示区域 */}
         <div style={{
           background: 'white',
-          borderRadius: '16px',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          borderRadius: '8px',
+          border: '1px solid #d0d7de',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column'

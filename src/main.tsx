@@ -7,9 +7,11 @@ import '@copilotkit/react-ui/styles.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <CopilotKit publicApiKey="ck_pub_b26393ce9fb20086b36d08ba72b903c9">
-    {<App />}
+    <CopilotKit 
+      runtimeUrl="http://127.0.0.1:4000/copilotkit"
+      // showDevConsole={true}  // 开发时可以打开，查看 CopilotKit 日志
+    >
+      <App />
     </CopilotKit>
-    
   </StrictMode>,
 )
